@@ -1,24 +1,48 @@
 type Book {
-  # Example field (placeholder)
-  exampleField: Int
+  _id: ID!
+  title: String!
+  author: String!
+  publishedYear: Int
 }
 
+"""
+ข้อมูลใช้ createBook
+"""
 input CreateBookInput {
-  # Example field (placeholder)
-  exampleField: Int
+  title: String!
+  author: String!
+  publishedYear: Int
 }
 
+"""
+ข้อมูลใช้ updateBook
+"""
 input UpdateBookInput {
-  id: Int!
+  _id: ID!
+  title: String
+  author: String
+  publishedYear: Int
 }
 
+"""
+คำสั่งใช้ดึงหนังสือ
+"""
 type Query {
-  book: [Book]!
-  book(id: Int!): Book
+  """
+  ดึงรายการหนังสือทั้งหมด
+  """
+  books: [Book!]!
+  """
+  ดึงรายการหนังสือตาม id
+  """
+  book(id: ID!): Book
 }
 
+"""
+คำสั่งใช้เพิ่ม แก้ไข หรือลบหนังสือ
+"""
 type Mutation {
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
-  removeBook(id: Int!): Book
+  removeBook(id: ID!): Book
 }

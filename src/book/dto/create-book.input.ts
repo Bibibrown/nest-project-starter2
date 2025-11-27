@@ -9,5 +9,5 @@ export class CreateBookInput {
   author: string;
 
   @Field(() => Int)
-  publishedYear: number;
+  publishedYear?: number;
 }
