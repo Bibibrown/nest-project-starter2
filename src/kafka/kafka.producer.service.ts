@@ -7,8 +7,8 @@ import {
 import { Kafka, Producer, Admin } from 'kafkajs';
 
 @Injectable()
-export class KafkaService implements OnModuleInit, OnModuleDestroy {
-  private readonly logger = new Logger(KafkaService.name);
+export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
+  private readonly logger = new Logger(KafkaProducerService.name);
   private kafka: Kafka;
   private producer: Producer;
   private admin: Admin;

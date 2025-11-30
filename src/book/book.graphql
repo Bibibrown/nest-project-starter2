@@ -1,5 +1,8 @@
 type Book {
   _id: ID!
+  """
+  ชื่อหนังสือ
+  """
   title: String!
   author: String!
   publishedYear: Int
