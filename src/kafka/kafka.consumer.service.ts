@@ -4,6 +4,7 @@ import {
   OnModuleInit,
   OnModuleDestroy,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { Kafka, Consumer } from 'kafkajs';
 
 @Injectable()
@@ -13,14 +14,21 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
   private consumer: Consumer;
   private isConnected = false;
 
-  // kafka.consumer.service.ts
   async onModuleInit() {
     const broker = process.env.KAFKA_BROKER || 'localhost:9092';
+    const CONSUMER_CLIENT_ID = `nest-app-consumer-${randomUUID()}`;
 
     this.kafka = new Kafka({
-      clientId: 'nest-app-consumer',
+      clientId: CONSUMER_CLIENT_ID,
       brokers: [broker],
-      // ... retry, timeout ตามเดิม
+      retry: {
+        initialRetryTime: 300,
+        retries: 8,
+        maxRetryTime: 30000,
+        multiplier: 2,
+      },
+      connectionTimeout: 10000,
+      requestTimeout: 30000,
     });
 
     this.consumer = this.kafka.consumer({

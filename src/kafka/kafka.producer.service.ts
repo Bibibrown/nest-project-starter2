@@ -4,6 +4,7 @@ import {
   OnModuleInit,
   OnModuleDestroy,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { Kafka, Producer, Admin } from 'kafkajs';
 
 @Injectable()
@@ -16,9 +17,10 @@ export class KafkaProducerService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     const broker = process.env.KAFKA_BROKER || 'localhost:9092';
+    const PRODUCER_CLIENT_ID = `nest-app-producer-${randomUUID()}`;
 
     this.kafka = new Kafka({
-      clientId: 'nest-app',
+      clientId: PRODUCER_CLIENT_ID,
       brokers: [broker],
       retry: {
         initialRetryTime: 300,

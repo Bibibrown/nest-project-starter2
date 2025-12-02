@@ -23,7 +23,6 @@ export class BookService {
 
   // ---------- KAFKA CONSUMER SETUP ----------
   async onModuleInit() {
-    // สมัคร consume topic 'createdbook'
     await this.kafkaConsumerService.subscribe(
       'createdbook',
       async (payload) => {
@@ -33,7 +32,6 @@ export class BookService {
           )}`,
         );
 
-        // ตัวอย่าง logic: refresh cache ของหนังสือเล่มนี้จาก MongoDB
         const id = payload._id;
         if (!id) {
           this.logger.warn(
@@ -50,7 +48,6 @@ export class BookService {
           return;
         }
 
-        // อัปเดต cache book:<id> ใหม่ใน Redis
         this.logger.log(`Update Redis cache for book:${id} from Kafka event`);
         await this.redisService.set(
           `book:${id}`,
