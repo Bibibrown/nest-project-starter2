@@ -42,8 +42,6 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
       this.isConnected = true;
       this.logger.log('Kafka consumer connected ✅');
 
-      // ❌ อย่ามี subscribe ตรงนี้แล้ว
-      // ให้ service อื่น (เช่น BookService) มาเรียก subscribe เองภายหลัง
     } catch (error) {
       this.logger.error('Failed to connect Kafka consumer', error.stack);
     }
@@ -58,7 +56,7 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
-   * สมัครใจเป็น consumer ของ topic นั้น ๆ พร้อม handler
+   * เป็น consumer ของ topic นั้น ๆ พร้อม handler
    */
   async subscribe(
     topic: string,
@@ -80,11 +78,10 @@ export class KafkaConsumerService implements OnModuleInit, OnModuleDestroy {
           const valueString = message.value?.toString() || '';
           let payload: any = valueString;
 
-          // สมมติส่งเป็น JSON ก็ลอง parse
           try {
             payload = JSON.parse(valueString);
           } catch {
-            // ถ้า parse ไม่ได้ก็ใช้ string ตรง ๆ ไป
+
           }
 
           this.logger.log(

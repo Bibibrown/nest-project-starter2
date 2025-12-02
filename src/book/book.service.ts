@@ -32,6 +32,7 @@ export class BookService {
           )}`,
         );
 
+        // ดึง _id ของหนังสือ
         const id = payload._id;
         if (!id) {
           this.logger.warn(
@@ -48,6 +49,7 @@ export class BookService {
           return;
         }
 
+        // อัปเดต Redis cache
         this.logger.log(`Update Redis cache for book:${id} from Kafka event`);
         await this.redisService.set(
           `book:${id}`,
